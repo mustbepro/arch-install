@@ -42,25 +42,25 @@
 DRIVE='/dev/sda'
 
 # Hostname of the installed machine.
-HOSTNAME='host100'
+HOSTNAME='jahgidi'
 
 # Encrypt everything (except /boot).  Leave blank to disable.
 ENCRYPT_DRIVE='TRUE'
 
 # Passphrase used to encrypt the drive (leave blank to be prompted).
-DRIVE_PASSPHRASE='a'
+DRIVE_PASSPHRASE=''
 
 # Root password (leave blank to be prompted).
-ROOT_PASSWORD='a'
+ROOT_PASSWORD=''
 
 # Main user to create (by default, added to wheel group, and others).
-USER_NAME='user'
+USER_NAME='rastaman'
 
 # The main user's password (leave blank to be prompted).
-USER_PASSWORD='a'
+USER_PASSWORD=''
 
 # System timezone.
-TIMEZONE='America/New_York'
+TIMEZONE='Africa/Johannesburg'
 
 # Have /tmp on a tmpfs or not.  Leave blank to disable.
 # Only leave this blank on systems with very little RAM.
@@ -71,11 +71,10 @@ KEYMAP='us'
 
 # Choose your video driver
 # For Intel
-VIDEO_DRIVER="i915"
 # For nVidia
 #VIDEO_DRIVER="nouveau"
 # For ATI
-#VIDEO_DRIVER="radeon"
+VIDEO_DRIVER="radeon"
 # For generic stuff
 #VIDEO_DRIVER="vesa"
 
@@ -301,25 +300,19 @@ install_packages() {
     local packages=''
 
     # General utilities/libraries
-    packages+=' alsa-utils aspell-en chromium cpupower gvim mlocate net-tools ntp openssh p7zip pkgfile powertop python python2 rfkill rsync sudo unrar unzip wget zip systemd-sysvcompat zsh grml-zsh-config'
+    packages+=' alsa-utils net-tools ntp openssh p7zip pkgfile rsync sudo unrar unzip wget zip bash'
 
     # Development packages
-    packages+=' apache-ant cmake gdb git maven mercurial subversion tcpdump valgrind wireshark-gtk'
+    packages+=' cmake gdb git tcpdump'
 
     # Netcfg
     if [ -n "$WIRELESS_DEVICE" ]
     then
-        packages+=' netcfg ifplugd dialog wireless_tools wpa_actiond wpa_supplicant'
+        packages+=' ifplugd dialog wireless_tools wpa_supplicant'
     fi
 
-    # Java stuff
-    packages+=' icedtea-web-java7 jdk7-openjdk jre7-openjdk'
-
-    # Libreoffice
-    packages+=' libreoffice-calc libreoffice-en-US libreoffice-gnome libreoffice-impress libreoffice-writer hunspell-en hyphen-en mythes-en'
-
     # Misc programs
-    packages+=' mplayer pidgin vlc xscreensaver gparted dosfstools ntfsprogs'
+    packages+=' vlc xscreensaver dosfstools ntfsprogs'
 
     # Xserver
     packages+=' xorg-apps xorg-server xorg-xinit xterm'
@@ -329,9 +322,6 @@ install_packages() {
 
     # Fonts
     packages+=' ttf-dejavu ttf-liberation'
-
-    # On Intel processors
-    packages+=' intel-ucode'
 
     # For laptops
     packages+=' xf86-input-synaptics'
@@ -370,9 +360,6 @@ install_packer() {
 install_aur_packages() {
     mkdir /foo
     export TMPDIR=/foo
-    packer -S --noconfirm android-udev
-    packer -S --noconfirm chromium-pepper-flash-stable
-    packer -S --noconfirm chromium-libpdf-stable
     unset TMPDIR
     rm -rf /foo
 }
